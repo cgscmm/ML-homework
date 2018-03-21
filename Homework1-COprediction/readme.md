@@ -55,11 +55,11 @@ Index(['PT08.S1', 'C6H6', 'PT08.S2', 'NOx', 'PT08.S3', 'NO2', 'PT08.S4',
        'PT08.S5_1', 'PT08.S5_2', 'PT08.S5_3', 'T_1', 'T_2', 'T_3', 'RH_1',
        'RH_2', 'RH_3', 'AH_1', 'AH_2', 'AH_3', 'CO_1', 'CO_2', 'CO_3'],
       dtype='object')
-      ```
+```
  where `CO_1` means the CO concentration of yesterday.
  
  Then we use `corr()` method to calculate the correlation coefficient between these features and CO concentration. The result is
- ```python
+```python
                  CO
 PT08.S3   -0.712008
 PT08.S3_1 -0.613929
