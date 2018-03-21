@@ -44,7 +44,7 @@ for feature in ['PT08.S1', 'C6H6', 'PT08.S2', 'NOx', 'PT08.S3', 'NO2',
     if feature != 'Time' and 'Date':
         for N in range(1, 4):
             derive_nth_day_feature(df, feature, N)
-            ```
+```
 Then the columns are
 ```python
 Index(['PT08.S1', 'C6H6', 'PT08.S2', 'NOx', 'PT08.S3', 'NO2', 'PT08.S4',
@@ -112,7 +112,7 @@ CO         1.000000
 ```
 Then we choose the variables whose correlation coefficient is bigger than 6.4 as the predictor. The data of today cannot be used, so we choose `'PT08.S3_1','C6H6_2','CO_2','NO2_1','NOx_1','PT08.S5_1', 'PT08.S1_1','PT08.S2_1', 'C6H6_1', 'CO_1'` as our predictor.
 ### Modeling
-##### Linear Regression
+#### Linear Regression
 Here we use `scikit-learn` to help us build the linear regression model
 ```python
 predictors = [ 'PT08.S3_1','C6H6_2','NOx_1','PT08.S5_1', 'PT08.S1_1',
