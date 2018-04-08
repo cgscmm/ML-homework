@@ -93,7 +93,7 @@ Finally, we use `sklearn.preprocessing.MinMaxScaler()`method to di the normaliza
 ### Modeling
 #### Linear Regression
 First, we use `matplotlib` to show the relationship between the characteristics and CO concentration.
-![avatar](/home/cgscmm/learngit/ML-homework/Homework1-COprediction/data_visualization.png)
+![avatar](ML-homework/Homework1-COprediction/data_visualization.png)
 We can see that every characteristic has strong linear relation with CO concentration. Thus, we can try to use linear regression method to do the prediction.
 
 Here we use `scikit-learn` to help us build the linear regression model
@@ -117,7 +117,7 @@ Mean Absolute Error:  0.0459690487838
 Median Absolute Error:  0.0321434214189
 Mean Squared Error: 0.00433337386598
 ```
-![img](/home/cgscmm/learngit/ML-homework/Homework1-COprediction/figure1.jpg)
+![img](ML-homework/Homework1-COprediction/figure1.jpg)
 
 #### BP network
 We use a BP neural network with 9 input nodes, 8 hidden nodes and 1 output nodes. Here we only use bias term in the input layer, because add a bias term in all layers will significantly increase the compute.
