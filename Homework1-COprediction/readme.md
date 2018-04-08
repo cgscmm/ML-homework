@@ -28,7 +28,7 @@ RH         7709 non-null float64
 AH         7709 non-null float64
 CO         6344 non-null float64
 ```
-It's easy to recognise that `NMHC` data has only 914 valid values, so we just delete this column. Furthurmore, we use `dropna(how='any')`  to delete the rows with missing values.
+It's easy to recognise that `NMHC` has only 914 valid values, so we just delete this column. Furthurmore, we use `dropna(how='any')`  to delete the rows with missing values.
 
 Next, because we want to do predction, so we need to fitting CO concentration with data in the PAST. Here we just move the data in upper two rows to that row.
 ```python
@@ -63,30 +63,7 @@ Index(['PT08.S1', 'C6H6', 'PT08.S2', 'NOx', 'PT08.S3', 'NO2', 'PT08.S4',
                  CO
 PT08.S3   -0.712008
 PT08.S3_1 -0.613929
-PT08.S3_2 -0.449116
-PT08.S3_3 -0.308605
-T         -0.113017
-T_1       -0.109227
-T_2       -0.102330
-T_3       -0.098378
-AH_3      -0.024506
-AH_2      -0.012299
-AH_1       0.004381
-AH         0.021031
-RH_3       0.154036
-RH_2       0.165149
-RH_1       0.181942
-PT08.S4_3  0.193514
-RH         0.196294
-NO2_3      0.295129
-PT08.S4_2  0.333752
-PT08.S2_3  0.359228
-C6H6_3     0.360549
-CO_3       0.375127
-PT08.S1_3  0.382557
-PT08.S5_3  0.400651
-NOx_3      0.419065
-NO2_2      0.422765
+...		...
 PT08.S4_1  0.515770
 NOx_2      0.534993
 PT08.S5_2  0.543417
