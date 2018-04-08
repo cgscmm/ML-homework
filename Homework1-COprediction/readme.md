@@ -1,8 +1,8 @@
 # Homework 1
-The aim of this homework is using monitored data in this moment to predict the CO concentration in the future.
-To achieve that, we can divide the task into two steps, first step is data processing, and the second step is using several statistical models to analysis the data to find a suitable one.
-### Data processing
-First, we use pandas to import the `train.csv`:
+The aim of this homework is using monitored data in the past to predict the CO concentration in the future.
+To achieve that, we divide the task into two steps: data preprocessing, and using different algorithms to analysis the data.
+### Data preprocessing
+First, we use `pandas` to import the `train.csv`:
 ```python
 df = pd.read_csv('train.csv', header=0,
 names=['Date', 'Time', 'PT08.S1', 'NMHC', 
@@ -10,9 +10,9 @@ names=['Date', 'Time', 'PT08.S1', 'NMHC',
 'PT08.S4', 'PT08.S5', 'T', 'RH', 'AH', 'CO']).
 set_index(['Date', 'Time'])
 ```
-Here I rename the columns because the brackets in the original file can cause error in the following processing. 
+Here we rename the columns because the brackets in the original file can cause error in the following processing. 
 
-Then, in order to observe the data more clearly, I use `df = df.replace(to_replace=-200, value=np.nan)` to replace the missing value (-200) by `np.nan`. And now we can use `df.info()` to observe the missing values, the result is
+Then, in order to observe the data more clearly, we use `df = df.replace(to_replace=-200, value=np.nan)` to replace the missing value (-200) by `np.nan`. And then use `df.info()` to observe the missing values, the result is
 ```python
 PT08.S1    7709 non-null float64
 NMHC       914 non-null float64
@@ -28,9 +28,9 @@ RH         7709 non-null float64
 AH         7709 non-null float64
 CO         6344 non-null float64
 ```
-It's easy to recognise that `NMHC` has only 914 valid values, so we just delete this column. Furthurmore, we use `dropna(how='any')`  to delete the rows with missing values.
+We can see that `NMHC` has only 914 valid values, so we just delete this column. Then, we use `dropna(how='any')`  to delete the rows with any missing values.
 
-Next, because we want to do predction, so we need to fitting CO concentration with data in the PAST. Here we just move the data in upper two rows to that row.
+Next, because we want to do predction, so we need to fitting CO concentration with data in the past. Here we use the data in past three days.
 ```python
 def derive_nth_day_feature(df, feature, N):
     rows = df.shape[0]
@@ -87,9 +87,15 @@ PT08.S2    0.913314
 C6H6       0.927884
 CO         1.000000
 ```
-Then we choose the variables whose correlation coefficient is bigger than 6.4 as the predictor. The data of today cannot be used, so we choose `'PT08.S3_1','C6H6_2','CO_2','NO2_1','NOx_1','PT08.S5_1', 'PT08.S1_1','PT08.S2_1', 'C6H6_1', 'CO_1'` as our predictor.
+Then we choose the variables whose correlation coefficient is larger than 6.4 as the predictor. The data of today cannot be used, so we choose `'PT08.S3_1','C6H6_2','CO_2','NO2_1','NOx_1','PT08.S5_1', 'PT08.S1_1','PT08.S2_1', 'C6H6_1', 'CO_1'` as our predictor.
+
+Finally, we use `sklearn.preprocessing.MinMaxScaler()`method to di the normalization.
 ### Modeling
 #### Linear Regression
+First, we use `matplotlib` to show the relationship between the characteristics and CO concentration.
+![avatar](/home/cgscmm/learngit/ML-homework/Homework1-COprediction/data_visualization.png)
+We can see that every characteristic has strong linear relation with CO concentration. Thus, we can try to use linear regression method to do the prediction.
+
 Here we use `scikit-learn` to help us build the linear regression model
 ```python
 predictors = [ 'PT08.S3_1','C6H6_2','NOx_1','PT08.S5_1', 'PT08.S1_1',
@@ -105,4 +111,34 @@ regressor = LinearRegression()
 regressor.fit(X_train, y_train)
 prediction = regressor.predict(X_test)
 ```
+And the result is 
+```python
+Mean Absolute Error:  0.0459690487838
+Median Absolute Error:  0.0321434214189
+Mean Squared Error: 0.00433337386598
+```
+![img](/home/cgscmm/learngit/ML-homework/Homework1-COprediction/figure1.jpg)
+
+#### BP network
+We use a BP neural network with 9 input nodes, 8 hidden nodes and 1 output nodes. Here we only use bias term in the input layer, because add a bias term in all layers will significantly increase the compute.
+
+And the network we built is totaly based on naive Python without using any toolkit. The code is too large, so we won't do furthur explanation, it is in `BP_network.py`.
+
+**Problems we got**
+
+When build this BP network, we met two problems:
+
+- Slow computing speed
+- Poor structure optimization
+
+The naive python has very poor GPU support, so we do all of the matrix calculation by CPU, it will take about 1 minute to update the weights once. And because of my weak coding skill, the structure of codes may be not so elegant. Thus, it takes 2901s to do the whole training and predicting, which is quite a long time.
+
+Finally, the result is:
+```python
+Mean Absolute Error:  0.0442622577904
+Median Absolute Error:  0.0292050137207
+Mean Squared Error: 0.00418156528933
+```
+We can see that the performance of this BP network is better than Linear Regression.
+
 
